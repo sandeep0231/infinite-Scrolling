@@ -9,11 +9,17 @@ const [hasMore,sethasMore] = useState(true);
 const [colorCode,setcolorCode] = useState("green");
 
   const fetchDataMore = ()=>{
-setTimeout(()=>{
-  setData(data.concat(Array.from({length:20})));
-},1000);
-const getColor = getRandomColor();
-setcolorCode(getColor);
+
+    if(data.length <1000) {
+      setTimeout(()=>{
+        setData(data.concat(Array.from({length:20})));
+      },1000);
+      const getColor = getRandomColor();
+      setcolorCode(getColor);
+    } else {
+          sethasMore(false);
+    }
+
   }
 
 
@@ -38,7 +44,7 @@ setcolorCode(getColor);
     <div className="App">
       <h3>React Infinite Scroll App </h3>
 
-     <InfiniteScroll dataLength={data.length} next={fetchDataMore} hasMore={hasMore} loader={<p>Loading...</p>}>
+     <InfiniteScroll dataLength={data.length} next={fetchDataMore} hasMore={hasMore} loader={<p>Loading...</p>} endMessage={<p>No more data...</p>}>
      {data.map((val,index)=>(<>
      <div style={container}>#This is {index+1} container.</div>
      </>))}
